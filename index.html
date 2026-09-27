@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Haunted Manor</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050506}
+body{font-family:Georgia,serif;color:#eee2c7}
+.scene{width:100vw;height:100vh;position:relative;display:grid;place-items:center;overflow:hidden;
+background:#050506}
+.art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+filter:brightness(.72) contrast(1.08);transform:scale(1.04);transition:transform 2s ease,filter 1.5s ease}
+.vignette{position:absolute;inset:0;background:radial-gradient(circle,transparent 25%,rgba(0,0,0,.72) 100%);pointer-events:none}
+.intro{position:absolute;bottom:7%;z-index:5;text-align:center;letter-spacing:.22em;text-transform:uppercase;
+text-shadow:0 2px 10px #000;transition:opacity .8s,transform .8s}
+.intro small{display:block;font-size:11px}
+.intro strong{display:block;margin-top:10px;font-family:Georgia,serif;font-style:italic;
+font-size:19px;letter-spacing:.08em;text-transform:none}
+.seal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:8;
+width:92px;height:92px;border-radius:50%;border:5px double #2a080d;cursor:pointer;
+background:radial-gradient(circle at 35% 25%,#a83d42,#671720 52%,#35090e);
+box-shadow:0 12px 25px #000,inset 0 0 0 4px rgba(240,200,160,.14);
+transition:transform .2s,opacity .7s,filter .2s}
+.seal:before{content:"H";position:absolute;inset:0;display:grid;place-items:center;
+font-size:39px;font-weight:bold;color:#d8bb82}
+.seal:hover{transform:translate(-50%,-50%) scale(1.07);filter:brightness(1.15)}
+.seal.crack{animation:crack .7s forwards}
+@keyframes crack{
+0%{transform:translate(-50%,-50%) scale(1)}
+35%{transform:translate(-50%,-50%) scale(1.16) rotate(3deg)}
+100%{transform:translate(-50%,-50%) scale(.5);opacity:0}
+}
+.opened .art{transform:scale(1.12);filter:brightness(.82) contrast(1.08)}
+.opened .intro{opacity:0;transform:translateY(20px)}
+.reset{position:absolute;right:18px;top:18px;z-index:10;background:#090809aa;
+border:1px solid #c5a56c66;color:#d8bb82;padding:9px 12px;font-size:10px;
+letter-spacing:.16em;text-transform:uppercase;opacity:0;pointer-events:none}
+.opened .reset{opacity:.8;pointer-events:auto}
+@media(max-width:600px){.seal{width:76px;height:76px}.seal:before{font-size:32px}}
+</style>
+</head>
+<body>
+<main class="scene" id="scene">
+<img class="art" src="haunted-manor-art.png" alt="Haunted Manor Halloween invitation artwork">
+<div class="vignette"></div>
+<button class="seal" id="seal" aria-label="Open invitation"></button>
+<div class="intro"><small>Break the seal</small><strong>Enter the Haunted Manor</strong></div>
+<button class="reset" id="reset">Reset</button>
+</main>
+<script>
+const scene=document.getElementById('scene');
+const seal=document.getElementById('seal');
+const reset=document.getElementById('reset');
+seal.onclick=()=>{if(scene.classList.contains('opened'))return;seal.classList.add('crack');setTimeout(()=>scene.classList.add('opened'),220)};
+reset.onclick=()=>{scene.classList.remove('opened');setTimeout(()=>seal.classList.remove('crack'),700)};
+</script>
+</body>
+</html>
